@@ -36,7 +36,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	function getSort() { return 1; }
 	
 	function connectTo($mode) { 
-		$this->Lexer->addSpecialPattern('~~REDIRECT>[a-zA-Z0-9_\-:]+~~', $mode, 'plugin_pageredirect');
+		$this->Lexer->addSpecialPattern('~~REDIRECT>.+~~', $mode, 'plugin_pageredirect');
 	}
 	
 	/** 
