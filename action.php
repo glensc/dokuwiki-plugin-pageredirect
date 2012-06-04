@@ -63,9 +63,17 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 				session_start();
 				$_SESSION[DOKU_COOKIE]['redirect'] = $ID;
 			}
-	
+
+			// preserve #section from $page
+			list($page, $section) = explode('#', $page, 2);
+			if (isset($section)) {
+				$section = '#' . $section;
+			} else {
+				$section = '';
+			}
+
 			// redirect
-			header("Location: ".wl($page, Array('redirect' => $redirect), TRUE, '&')); 
+			header("Location: ".wl($page, Array('redirect' => $redirect), TRUE, '&'). $section);
 			exit(); 
 		} 
 	}
