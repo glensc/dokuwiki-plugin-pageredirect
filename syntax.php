@@ -3,6 +3,7 @@
  * Syntax Plugin:   Redirects page requests based on content
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Elan Ruusamäe <glen@delfi.ee>
  * @author     David Lorentsen <zyberdog@quakenet.org>
  */
 
@@ -67,6 +68,4 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 
 		return false;
 	}
-
 }
-
