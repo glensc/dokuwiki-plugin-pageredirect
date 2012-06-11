@@ -15,21 +15,6 @@ require_once(DOKU_PLUGIN.'action.php');
  * All DokuWiki action plugins need to inherit from this class
  */
 class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
-
-	/**
-	 * return some info
-	 */
-	function getInfo(){
-		return array(
-			'author' => 'David Lorentsen',
-			'email'  => 'zyberdog@quakenet.org',
-			'date'   => '2007-01-24',
-			'name'   => 'Page Redirect',
-			'desc'   => 'Redirects page requests based on content',
-			'url'    => 'http://wiki.splitbrain.org/plugin:page_redirector',
-		);
-	}
-
 	function register(&$controller) {
 		$controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, 'handle_pageredirect_redirect');
 		$controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_pageredirect_note');

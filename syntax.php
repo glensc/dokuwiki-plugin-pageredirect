@@ -17,21 +17,6 @@ require_once(DOKU_INC.'inc/html.php');
  * need to inherit from this class
  */
 class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
-
-	/**
-	 * return some info
-	 */
-	function getInfo(){
-		return array(
-			'author' => 'David Lorentsen',
-			'email'  => 'zyberdog@quakenet.org',
-			'date'   => '2007-01-24',
-			'name'   => 'Page Redirect',
-			'desc'   => 'Redirects page requests based on content',
-			'url'    => 'http://wiki.splitbrain.org/plugin:page_redirector',
-		);
-	}
-
 	function getType() { return 'substition'; }
 	function getPType(){ return 'block'; }
 	function getSort() { return 1; }
