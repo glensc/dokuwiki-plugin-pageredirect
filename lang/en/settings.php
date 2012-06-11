@@ -7,4 +7,3 @@
  */
 
 $lang['show_note'] = 'Display note on page you are redirected to?';
- 

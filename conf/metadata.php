@@ -5,6 +5,5 @@
   *
   * @author    David Lorentsen <zyberdog@quakenet.org>
   */
-  
+
 $meta['show_note'] = array('onoff');
-  
