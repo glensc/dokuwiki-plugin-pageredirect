@@ -33,7 +33,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 		// extract target page from match pattern
 		if ($match[0] == '#') {
 			# #REDIRECT PAGE
-			$page = substr($match, 10, -1);
+			$page = substr($match, 10);
 		} else {
 			# ~~REDIRECT>PAGE~~
 			$page = substr($match, 11, -2);
@@ -42,7 +42,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 		// prepare message here instead of in render
 		$message = '<div class="noteredirect">'.sprintf($this->getLang('redirect_to'), html_wikilink($page)).'</div>';
 
-		return Array($page, $message);
+		return array($page, $message);
 	}
 
 	/**
