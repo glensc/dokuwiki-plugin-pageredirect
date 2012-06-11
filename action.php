@@ -34,6 +34,12 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 		$controller->register_hook('DOKUWIKI_STARTED', 'BEFORE', $this, 'handle_pageredirect_redirect');
 		$controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_pageredirect_note');
 		$controller->register_hook('PARSER_METADATA_RENDER','BEFORE', $this, 'handle_pageredirect_metadata');
+
+		// This plugin goes first
+		$hooks =& $controller->_hooks[TPL_ACT_RENDER_BEFORE];
+		if ($hooks[0][0] != $this) {
+			array_unshift($hooks, array_pop($hooks));
+		}
 	}
 
 	function handle_pageredirect_redirect(&$event, $param) { 
