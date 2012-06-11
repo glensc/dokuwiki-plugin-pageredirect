@@ -37,7 +37,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	function getSort() { return 1; }
 	
 	function connectTo($mode) { 
-		$this->Lexer->addSpecialPattern('~~REDIRECT>.+~~', $mode, 'plugin_pageredirect');
+		$this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+~~|#REDIRECT [^\r\n]+)', $mode, 'plugin_pageredirect');
 	}
 	
 	/** 
@@ -45,8 +45,14 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	 */ 
 	function handle($match, $state, $pos, &$handler) {
 		// extract target page from match pattern
-		$page = substr($match,11,-2);
-		
+		if ($match[0] == '#') {
+			# #REDIRECT PAGE
+			$page = substr($match, 10, -1);
+		} else {
+			# ~~REDIRECT>PAGE~~
+			$page = substr($match, 11, -2);
+		}
+
 		// prepare message here instead of in render
 		$message = '<div class="noteredirect">'.sprintf($this->getLang('redirect_to'), html_wikilink($page)).'</div>';
 		
