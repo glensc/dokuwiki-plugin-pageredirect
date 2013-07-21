@@ -23,7 +23,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	function getSort() { return 1; }
 
 	function connectTo($mode) {
-		$this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+~~|^#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
+		$this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+?~~|^#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
 	}
 
 	/**
