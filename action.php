@@ -79,8 +79,9 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 			if (isset($_GET['redirect']) && $_GET['redirect'] > 0 && $_GET['redirect'] < 6) {
 				if (isset($_SESSION[DOKU_COOKIE]['redirect']) && $_SESSION[DOKU_COOKIE]['redirect'] != '') {
 					// we were redirected from another page, show it!
-					$page = $_SESSION[DOKU_COOKIE]['redirect'];
-					echo '<div class="noteredirect">'.sprintf($this->getLang('redirected_from'), '<a href="'.wl(':'.$page, Array('redirect' => 'no'), TRUE, '&').'" class="wikilink1" title="'.$page.'">'.$page.'</a>').'</div><br/>';
+					$page  = cleanID($_SESSION[DOKU_COOKIE]['redirect']);
+					$title = hsc(useHeading('navigation') ? p_get_first_heading($page) : $page);
+					echo '<div class="noteredirect">'.sprintf($this->getLang('redirected_from'), '<a href="'.wl(':'.$page, array('redirect' => 'no'), TRUE, '&').'" class="wikilink1" title="'.$page.'">'.$title.'</a>').'</div><br/>';
 					unset($_SESSION[DOKU_COOKIE]['redirect']);
 
 					return true;
