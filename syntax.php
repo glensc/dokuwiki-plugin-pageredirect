@@ -23,7 +23,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	function getSort() { return 1; }
 
 	function connectTo($mode) {
-		$this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+~~|^#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
+		$this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+?~~|^#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
 	}
 
 	/**
@@ -38,9 +38,16 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 			# ~~REDIRECT>PAGE~~
 			$page = substr($match, 11, -2);
 		}
+		$page=trim($page);
+
+		if (!preg_match('#^(https?)://#i', $page)) {
+			$link = html_wikilink($page);
+		} else {
+			$link = '<a href="'.hsc($page).'" class="urlextern">'.hsc($page).'</a>';
+		}
 
 		// prepare message here instead of in render
-		$message = '<div class="noteredirect">'.sprintf($this->getLang('redirect_to'), html_wikilink($page)).'</div>';
+		$message = '<div class="noteredirect">'.sprintf($this->getLang('redirect_to'), $link).'</div>';
 
 		return array($page, $message);
 	}
