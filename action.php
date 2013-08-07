@@ -59,7 +59,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 			}
 
 			// prepare link for internal redirects, keep external targets
-			if (!preg_match('#^(https?)://#i', $page)) {
+			if (!preg_match('#^https?://#i', $page)) {
 				$page = wl($page, array('redirect' => $redirect), TRUE, '&');
 
 				if (!headers_sent() && $this->getConf('show_note')) {
