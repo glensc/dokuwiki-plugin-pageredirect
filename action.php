@@ -31,66 +31,81 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 	function handle_pageredirect_redirect(&$event, $param) {
 		global $ID, $ACT, $REV;
 
-		if (($ACT == 'show' || $ACT == '') && empty($REV)) {
-			$page = p_get_metadata($ID,'relation isreplacedby');
+		if (($ACT != 'show' && $ACT != '') || $REV) {
+			return;
+		}
 
-			// return if no redirection data
-			if (empty($page)) { return; }
+		$page = p_get_metadata($ID,'relation isreplacedby');
 
-			if (isset($_GET['redirect'])) {
-				// return if redirection is temporarily disabled,
-				// or we have been redirected 5 times in a row
-				if ($_GET['redirect'] == 'no' || $_GET['redirect'] > 4) { return; }
-				elseif ($_GET['redirect'] > 0) { $redirect = $_GET['redirect'] +1; }
-				else { $redirect = 1; }
+		// return if no redirection data
+		if (empty($page)) {
+			return;
+		}
+
+		if (isset($_GET['redirect'])) {
+			// return if redirection is temporarily disabled,
+			// or we have been redirected 5 times in a row
+			if ($_GET['redirect'] == 'no' || $_GET['redirect'] > 4) {
+				return;
+			} elseif ($_GET['redirect'] > 0) {
+				$redirect = $_GET['redirect'] + 1;
 			} else {
 				$redirect = 1;
 			}
-
-			// verify metadata currency
-			if (@filemtime(metaFN($ID,'.meta')) < @filemtime(wikiFN($ID))) { return; }
-
-			// preserve #section from $page
-			list($page, $section) = explode('#', $page, 2);
-			if (isset($section)) {
-				$section = '#' . $section;
-			} else {
-				$section = '';
-			}
-
-			// prepare link for internal redirects, keep external targets
-			if (!preg_match('#^https?://#i', $page)) {
-				$page = wl($page, array('redirect' => $redirect), TRUE, '&');
-
-				if (!headers_sent() && $this->getConf('show_note')) {
-					// remember to show note about being redirected from another page
-					session_start();
-					$_SESSION[DOKU_COOKIE]['redirect'] = $ID;
-				}
-			}
-
-			// redirect
-			header("HTTP/1.1 301 Moved Permanently");
-			header("Location: ".$page.$section);
-			exit();
+		} else {
+			$redirect = 1;
 		}
+
+		// verify metadata currency
+		if (@filemtime(metaFN($ID,'.meta')) < @filemtime(wikiFN($ID))) {
+			return;
+		}
+
+		// preserve #section from $page
+		list($page, $section) = explode('#', $page, 2);
+		if (isset($section)) {
+			$section = '#' . $section;
+		} else {
+			$section = '';
+		}
+
+		// prepare link for internal redirects, keep external targets
+		if (!preg_match('#^https?://#i', $page)) {
+			$page = wl($page, array('redirect' => $redirect), TRUE, '&');
+
+			if (!headers_sent() && $this->getConf('show_note')) {
+				// remember to show note about being redirected from another page
+				session_start();
+				$_SESSION[DOKU_COOKIE]['redirect'] = $ID;
+			}
+		}
+
+		// redirect
+		header("HTTP/1.1 301 Moved Permanently");
+		header("Location: ".$page.$section);
+		exit();
 	}
 
 	function handle_pageredirect_note(&$event, $param) {
 		global $ID, $ACT;
 
-		if ($ACT == 'show' || $ACT == '') {
-			if (!$this->getConf('show_note')) { return; }
-			if (isset($_GET['redirect']) && $_GET['redirect'] > 0 && $_GET['redirect'] < 6) {
-				if (isset($_SESSION[DOKU_COOKIE]['redirect']) && $_SESSION[DOKU_COOKIE]['redirect'] != '') {
-					// we were redirected from another page, show it!
-					$page  = cleanID($_SESSION[DOKU_COOKIE]['redirect']);
-					$title = hsc(useHeading('navigation') ? p_get_first_heading($page) : $page);
-					echo '<div class="noteredirect">'.sprintf($this->getLang('redirected_from'), '<a href="'.wl(':'.$page, array('redirect' => 'no'), TRUE, '&').'" class="wikilink1" title="'.$page.'">'.$title.'</a>').'</div><br/>';
-					unset($_SESSION[DOKU_COOKIE]['redirect']);
+		if ($ACT != 'show' && $ACT != '') {
+			return;
+		}
 
-					return true;
-				}
+		if (!$this->getConf('show_note')) {
+			return;
+		}
+
+		if (isset($_GET['redirect']) && $_GET['redirect'] > 0 && $_GET['redirect'] < 6) {
+			if (isset($_SESSION[DOKU_COOKIE]['redirect']) && $_SESSION[DOKU_COOKIE]['redirect'] != '') {
+				// we were redirected from another page, show it!
+				$page  = cleanID($_SESSION[DOKU_COOKIE]['redirect']);
+				$title = hsc(useHeading('navigation') ? p_get_first_heading($page) : $page);
+				echo '<div class="noteredirect">'.sprintf($this->getLang('redirected_from'), '<a href="'.wl(':'.$page, array('redirect' => 'no'), TRUE, '&').'" class="wikilink1" title="'.$page.'">'.$title.'</a>').'</div><br/>';
+				unset($_SESSION[DOKU_COOKIE]['redirect']);
+
+				return true;
 			}
 		}
 
