@@ -1,4 +1,7 @@
-pageredirect Plugin for DokuWiki
+Page Redirect Plugin for DokuWiki
+=================================
+
+[![Build Status](https://travis-ci.org/glensc/dokuwiki-plugin-pageredirect.svg?branch=master)](https://travis-ci.org/glensc/dokuwiki-plugin-pageredirect)
 
 Redirects page requests based on content
 
@@ -6,14 +9,14 @@ All documentation for this plugin can be found at
 https://www.dokuwiki.org/plugin:pageredirect
 
 If you install this plugin manually, make sure it is installed in
-lib/plugins/pageredirect/ - if the folder is called different it
+`lib/plugins/pageredirect/` - if the folder is called different it
 will not work!
 
 Please refer to http://www.dokuwiki.org/plugins for additional info
 on how to install plugins in DokuWiki.
 
 ----
-Copyright (C) Elan Ruusam‰e <glen@delfi.ee>
+Copyright (C) Elan Ruusam√§e <glen@delfi.ee>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
