@@ -27,9 +27,21 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	}
 
 	/**
-	 * Handle the match
+	 * Handler to prepare matched data for the rendering process
+	 *
+	 * This function can only pass data to render() via its return value - render()
+	 * may be not be run during the object's current life.
+	 *
+	 * Usually you should only need the $match param.
+	 *
+	 * @param   string       $match   The text matched by the patterns
+	 * @param   int          $state   The lexer state for the match
+	 * @param   int          $pos     The character position of the matched text
+	 * @param   Doku_Handler $handler Reference to the Doku_Handler object
+	 * @return  array Return an array with all data you want to use in render
 	 */
-	function handle($match, $state, $pos, &$handler) {
+	function handle($match, $state, $pos, Doku_Handler &$handler) {
+
 		// extract target page from match pattern
 		if ($match[0] == '#') {
 			# #REDIRECT PAGE
@@ -53,10 +65,30 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	}
 
 	/**
-	 * Create output and metadata entry
+	 * Handles the actual output creation.
+	 *
+	 * The function must not assume any other of the classes methods have been run
+	 * during the object's current life. The only reliable data it receives are its
+	 * parameters.
+	 *
+	 * The function should always check for the given output format and return false
+	 * when a format isn't supported.
+	 *
+	 * $renderer contains a reference to the renderer object which is
+	 * currently handling the rendering. You need to use it for writing
+	 * the output. How this is done depends on the renderer used (specified
+	 * by $format
+	 *
+	 * The contents of the $data array depends on what the handler() function above
+	 * created
+	 *
+	 * @param   $format   string        output format being rendered
+	 * @param   $renderer Doku_Renderer reference to the current renderer object
+	 * @param   $data     array         data created by handler()
+	 * @return  boolean                 rendered correctly?
 	 */
-	function render($mode, &$renderer, $data) {
-		if ($mode == 'xhtml') {
+	function render($format, Doku_Renderer &$renderer, $data) {
+		if ($format == 'xhtml') {
 			// add prepared note about redirection
 			$renderer->doc .= $data[1];
 
@@ -66,7 +98,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 			$EVENT_HANDLER->register_hook('TPL_ACT_RENDER','AFTER', $action, 'handle_pageredirect_redirect');
 
 			return true;
-		} elseif ($mode == 'metadata') {
+		} elseif ($format == 'metadata') {
 			// add redirection to metadata
 			$renderer->meta['relation']['isreplacedby'] = $data[0];
 
