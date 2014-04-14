@@ -1,28 +1,37 @@
 <?php
 /**
- * Syntax Plugin:   Redirects page requests based on content
+ * DokuWiki Plugin pageredirect (Syntax Component)
  *
- * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
- * @author     Elan Ruusamäe <glen@delfi.ee>
- * @author     David Lorentsen <zyberdog@quakenet.org>
+ * @license GPL 2 http://www.gnu.org/licenses/gpl-2.0.html
+ * @author  Elan Ruusamäe <glen@delfi.ee>
+ * @author  David Lorentsen <zyberdog@quakenet.org>
  */
 
-if(!defined('DOKU_INC')) die();
+// must be run within Dokuwiki
+if (!defined('DOKU_INC')) die();
 
-if(!defined('DOKU_PLUGIN')) define('DOKU_PLUGIN',DOKU_INC.'lib/plugins/');
-require_once(DOKU_PLUGIN.'syntax.php');
-require_once(DOKU_INC.'inc/html.php');
-
-/**
- * All DokuWiki plugins to extend the parser/rendering mechanism
- * need to inherit from this class
- */
 class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
-	function getType() { return 'substition'; }
-	function getPType(){ return 'block'; }
-	function getSort() { return 1; }
+    /**
+     * @return string Syntax mode type
+     */
+    public function getType() { return 'substition'; }
 
-	function connectTo($mode) {
+    /**
+     * @return string Paragraph type
+     */
+    public function getPType() { return 'block'; }
+
+    /**
+     * @return int Sort order - Low numbers go before high numbers
+     */
+    public function getSort() { return 1; }
+
+    /**
+     * Connect lookup pattern to lexer.
+     *
+     * @param string $mode Parser mode
+     */
+    public function connectTo($mode) {
 		$this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+?~~|^#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
 	}
 
@@ -40,9 +49,8 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	 * @param   Doku_Handler $handler Reference to the Doku_Handler object
 	 * @return  array Return an array with all data you want to use in render
 	 */
-	function handle($match, $state, $pos, Doku_Handler &$handler) {
-
-		// extract target page from match pattern
+    public function handle($match, $state, $pos, Doku_Handler $handler){
+	    // extract target page from match pattern
 		if ($match[0] == '#') {
 			# #REDIRECT PAGE
 			$page = substr($match, 10);
@@ -87,8 +95,8 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 	 * @param   $data     array         data created by handler()
 	 * @return  boolean                 rendered correctly?
 	 */
-	function render($format, Doku_Renderer &$renderer, $data) {
-		if ($format == 'xhtml') {
+	public function render($format, Doku_Renderer $renderer, $data) {
+	    if ($format == 'xhtml') {
 			// add prepared note about redirection
 			$renderer->doc .= $data[1];
 
@@ -98,7 +106,9 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 			$EVENT_HANDLER->register_hook('TPL_ACT_RENDER','AFTER', $action, 'handle_pageredirect_redirect');
 
 			return true;
-		} elseif ($format == 'metadata') {
+		}
+	   
+		if ($format == 'metadata') {
 			// add redirection to metadata
 			$renderer->meta['relation']['isreplacedby'] = $data[0];
 
