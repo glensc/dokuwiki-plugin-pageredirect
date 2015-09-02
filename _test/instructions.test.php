@@ -1,16 +1,18 @@
 <?php
 
-require_once dirname(__FILE__) . '/pageredirect_test.php';
-
 /**
  * @group plugin_pageredirect
  */
-class plugin_pageredirect_test1 extends plugin_pageredirect_abstract_test {
+class plugin_pageredirect_test1 extends DokuWikiTest {
+
+	public function setUp() {
+		$this->pluginsEnabled[] = 'pageredirect';
+		parent::setUp();
+	}
+
 	public function test_instructions() {
 		$instructions = p_get_instructions("~~REDIRECT>namespace:page~~");
 
-		// this is '/tmp' somewhy when ran from IDEA
-		$doku_root = '/.';
 		$expected = array(
 			0 =>
 			array(
@@ -28,7 +30,7 @@ class plugin_pageredirect_test1 extends plugin_pageredirect_abstract_test {
 					1 =>
 					array(
 						0 => 'namespace:page',
-						1 => '<div class="noteredirect">This page has been moved, the new location is <a href="'.$doku_root.'/doku.php?id=namespace:page" class="wikilink2" title="namespace:page" rel="nofollow">page</a>.</div>',
+						1 => '<div class="noteredirect">This page has been moved, the new location is <a href="'.DOKU_BASE.'doku.php?id=namespace:page" class="wikilink2" title="namespace:page" rel="nofollow">page</a>.</div>',
 					),
 					2 => 5,
 					3 => '~~REDIRECT>namespace:page~~',
