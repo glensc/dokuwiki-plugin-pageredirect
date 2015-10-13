@@ -91,7 +91,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 
 		// redirect
 		header("HTTP/1.1 301 Moved Permanently");
-		header("Location: ".$page.$section);
+		header("Location: ".$page.$section.$_SERVER['QUERY_STRING']);
 		exit();
 	}
 
