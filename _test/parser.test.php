@@ -17,12 +17,13 @@ class plugin_pageredirect_test_parser extends plugin_pageredirect_test_abstract 
         saveWikiText($id, $text, "edited $id");
 
         $metadata = p_get_metadata($id);
-        $this->assertEquals($metadata['relation']['isreplacedby'], $page);
+        $this->assertEquals($page, $metadata['relation']['isreplacedby']);
     }
 
     public function data() {
         return array(
             0 => array('~~REDIRECT>http://google.com~~', 'http://google.com'),
+            1 => array('~~REDIRECT>probability_basic_definitions#bayes_theorem~~', 'probability_basic_definitions#bayes_theorem'),
         );
     }
 }
