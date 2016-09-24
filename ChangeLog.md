@@ -4,6 +4,10 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
+## [UNRELEASED]
+
+  - plugin now requires dokuwiki 2014-05-05 (Ponder Stibbons)
+
 ## [20160924]
 
   - add French translations. [#14]
@@ -42,6 +46,7 @@ All notable changes to this project will be documented in this file.
 
   - Build 2
 
+[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20160924...master
 [20160924]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20140414...20160924
 [20140414]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20120816...20140414
 [20120816]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20120612...20120816

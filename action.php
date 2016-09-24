@@ -23,18 +23,9 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         /* @see action_plugin_pageredirect::handle_parser_metadata_render() */
         $controller->register_hook('PARSER_METADATA_RENDER', 'BEFORE', $this, 'handle_parser_metadata_render');
 
-        // This plugin goes first
-        // After PR#555
+        // This plugin goes first, PR#555, requires dokuwiki 2014-05-05 (Ponder Stibbons)
         /* @see action_plugin_pageredirect::handle_tpl_act_render() */
-        $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_tpl_act_render', null, -PHP_INT_MAX);
-
-        // Before PR#555, i.e 2013-12-08 release
-        if(isset($controller->_hook)) {
-            $hooks =& $controller->_hooks[TPL_ACT_RENDER_BEFORE];
-            if($hooks[0][0] != $this) {
-                array_unshift($hooks, array_pop($hooks));
-            }
-        }
+        $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_tpl_act_render', null, PHP_INT_MIN);
     }
 
     public function handle_dokuwiki_started(&$event, $param) {
