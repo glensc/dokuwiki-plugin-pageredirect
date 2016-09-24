@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 ## [UNRELEASED]
 
   - plugin now requires dokuwiki 2014-05-05 (Ponder Stibbons)
-  - revert broken implementation of adding `GET` parameters to url from [#16], fixes [#24]
+  - revert broken implementation of adding `GET` parameters to url from [#16], fixes [#24], [#25]
 
 ## [20160924]
 
@@ -78,4 +78,6 @@ All notable changes to this project will be documented in this file.
 [#17]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/17
 [#21]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/21
 [#22]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/22
+[#24]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/24
+[#25]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/25
 [dokuwiki#555]: https://github.com/splitbrain/dokuwiki/pull/555
