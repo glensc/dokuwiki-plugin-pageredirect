@@ -38,7 +38,11 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
      * @param string $mode Parser mode
      */
     public function connectTo($mode) {
-        $this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+?~~|^#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
+        // NOTE: each document is surrounted with \n by dokuwiki parser
+        // so it's safe to use \n in the pattern
+        // this fixes creole greedyness:
+        // https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/18#issuecomment-249386268
+        $this->Lexer->addSpecialPattern('(?:~~REDIRECT>.+?~~|\n#(?i:redirect) [^\r\n]+)', $mode, 'plugin_pageredirect');
     }
 
     /**
@@ -56,6 +60,9 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
      * @return  array Return an array with all data you want to use in render
      */
     public function handle($match, $state, $pos, Doku_Handler $handler) {
+        // strip leading "\n" from creole-compatible pattern
+        $match = trim($match);
+
         // extract target page from match pattern
         if($match[0] == '#') {
             # #REDIRECT PAGE
