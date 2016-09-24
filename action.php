@@ -88,7 +88,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
     }
 
     public function handle_tpl_act_render(&$event, $param) {
-        global $ID, $ACT;
+        global $ACT;
 
         // handle on do=show
         if($ACT != 'show' && $ACT != '') {
