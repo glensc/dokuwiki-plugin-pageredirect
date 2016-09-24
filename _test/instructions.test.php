@@ -1,15 +1,11 @@
 <?php
 
+require_once __DIR__ . '/test_abstract.php';
+
 /**
  * @group plugin_pageredirect
  */
-class plugin_pageredirect_test1 extends DokuWikiTest {
-
-    public function setUp() {
-        $this->pluginsEnabled[] = 'pageredirect';
-        parent::setUp();
-    }
-
+class plugin_pageredirect_test_instructions extends plugin_pageredirect_test_abstract {
     public function test_instructions() {
         $instructions = p_get_instructions("~~REDIRECT>namespace:page~~");
 
