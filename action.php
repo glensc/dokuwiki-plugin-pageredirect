@@ -79,8 +79,12 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         }
 
         // prepare link for internal redirects, keep external targets
-        if(!preg_match('#^https?://#i', $page)) {
+        $is_external = preg_match('#^https?://#i', $page);
+        if(!$is_external) {
             $page = wl($page, array('redirect' => $redirect), true, '&');
+
+            // add existing url parameters
+            $page = wl($page, $_SERVER['QUERY_STRING'], true, '&');
 
             if(!headers_sent() && $this->getConf('show_note')) {
                 // remember to show note about being redirected from another page
@@ -89,8 +93,12 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
             }
         }
 
-        $url = $page . $section . $_SERVER['QUERY_STRING'];
-        $this->redirect($url);
+        // add anchor if not external redirect
+        if (!$is_external) {
+            $page .= $section;
+        }
+
+        $this->redirect($page);
     }
 
     public function handle_tpl_act_render(&$event, $param) {
