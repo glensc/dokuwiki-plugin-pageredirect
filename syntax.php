@@ -109,7 +109,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
             // hook into the post render event to allow the page to be redirected
             global $EVENT_HANDLER;
             $action =& plugin_load('action', 'pageredirect');
-            $EVENT_HANDLER->register_hook('TPL_ACT_RENDER', 'AFTER', $action, 'handle_pageredirect_redirect');
+            $EVENT_HANDLER->register_hook('TPL_ACT_RENDER', 'AFTER', $action, 'handle_dokuwiki_started');
 
             return true;
         }
