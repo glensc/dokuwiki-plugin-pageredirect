@@ -43,19 +43,15 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         }
         list($page, $is_external) = $metadata;
 
-        if(isset($_GET['redirect'])) {
-            // return if redirection is temporarily disabled,
-            // or we have been redirected 5 times in a row
-            if($_GET['redirect'] == 'no' || $_GET['redirect'] > 4) {
-                return;
-            } elseif($_GET['redirect'] > 0) {
-                $redirect = $_GET['redirect'] + 1;
-            } else {
-                $redirect = 1;
-            }
-        } else {
-            $redirect = 1;
+        global $INPUT;
+        $redirect = $INPUT->get->str('redirect', '0');
+
+        // return if redirection is temporarily disabled,
+        // or we have been redirected 5 times in a row
+        if($redirect == 'no' || $redirect > 4) {
+            return;
         }
+        $redirect = (int)$redirect+1;
 
         // verify metadata currency
         // FIXME: why
@@ -128,7 +124,9 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
      * show note about being redirected from another page
      */
     private function render_flash() {
-        $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : null;
+        global $INPUT;
+
+        $redirect = $INPUT->get->str('redirect');
 
         // loop counter
         if($redirect <= 0 || $redirect > 5) {
