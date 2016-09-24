@@ -149,13 +149,11 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
     }
 
     /**
-     * Redirect to url. stop the script
+     * Redirect to url.
      * @param string $url
      */
     private function redirect($url) {
-        // redirect
         header("HTTP/1.1 301 Moved Permanently");
-        header("Location: $url");
-        exit();
+        send_redirect($url);
     }
 }
