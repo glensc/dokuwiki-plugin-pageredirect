@@ -44,8 +44,8 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
     /**
      * Handler to prepare matched data for the rendering process
      *
-     * This function can only pass data to render() via its return value - render()
-     * may be not be run during the object's current life.
+     * This function can only pass data to render() via its return value
+     * render() may be not be run during the object's current life.
      *
      * Usually you should only need the $match param.
      *
@@ -66,16 +66,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
         }
         $page = trim($page);
 
-        if(!preg_match('#^(https?)://#i', $page)) {
-            $link = html_wikilink($page);
-        } else {
-            $link = '<a href="' . hsc($page) . '" class="urlextern">' . hsc($page) . '</a>';
-        }
-
-        // prepare message here instead of in render
-        $message = '<div class="noteredirect">' . sprintf($this->getLang('redirect_to'), $link) . '</div>';
-
-        return array($page, $message);
+        return $page;
     }
 
     /**
@@ -96,15 +87,15 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
      * The contents of the $data array depends on what the handler() function above
      * created
      *
-     * @param   $format   string        output format being rendered
-     * @param   $renderer Doku_Renderer reference to the current renderer object
-     * @param   $data     array         data created by handler()
-     * @return  boolean                 rendered correctly?
+     * @param string        $format   output format being rendered
+     * @param Doku_Renderer $renderer reference to the current renderer object
+     * @param array         $data     data created by handler()
+     * @return boolean return true if rendered correctly
      */
     public function render($format, Doku_Renderer $renderer, $data) {
         if($format == 'xhtml') {
             // add prepared note about redirection
-            $renderer->doc .= $data[1];
+            $renderer->doc .= $this->redirect_message($data);
 
             // hook into the post render event to allow the page to be redirected
             global $EVENT_HANDLER;
@@ -117,11 +108,30 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
 
         if($format == 'metadata') {
             // add redirection to metadata
-            $renderer->meta['relation']['isreplacedby'] = $data[0];
+            $renderer->meta['relation']['isreplacedby'] = $data;
 
             return true;
         }
 
         return false;
+    }
+
+    /**
+     * Create redirection message html
+     *
+     * @param string $page
+     * @return string
+     */
+    private function redirect_message($page) {
+        if(!preg_match('#^(https?)://#i', $page)) {
+            $link = html_wikilink($page);
+        } else {
+            $link = '<a href="' . hsc($page) . '" class="urlextern">' . hsc($page) . '</a>';
+        }
+
+        // prepare message here instead of in render
+        $message = '<div class="noteredirect">' . sprintf($this->getLang('redirect_to'), $link) . '</div>';
+
+        return $message;
     }
 }

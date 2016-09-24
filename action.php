@@ -47,7 +47,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         $page = p_get_metadata($ID, 'relation isreplacedby');
 
         // return if no redirection data
-        if(empty($page)) {
+        if(!$page) {
             return;
         }
 
