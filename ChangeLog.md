@@ -6,7 +6,12 @@ All notable changes to this project will be documented in this file.
 
 ## [UNRELEASED]
 
-  -
+  - add French translations. [#14]
+  - display pagename if heading is undefined. [#15], [#9], [#13]
+  - preserve `GET` parameters when redirecting. [#16]
+  - add Russian translations. [#17]
+  - update Korean translations. [#21]
+  - fix test which is not passing with new version of Dokuwiki. [#22]
 
 ## [20140414]
 
@@ -57,6 +62,14 @@ All notable changes to this project will be documented in this file.
 [#6]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/6
 [#7]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/7
 [#8]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/8
+[#9]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/9
 [#10]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/10
 [#11]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/11
+[#13]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/13
+[#14]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/14
+[#15]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/15
+[#16]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/16
+[#17]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/17
+[#21]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/21
+[#22]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/22
 [dokuwiki#555]: https://github.com/splitbrain/dokuwiki/pull/555
