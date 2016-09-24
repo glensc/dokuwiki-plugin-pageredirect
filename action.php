@@ -89,10 +89,8 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
             }
         }
 
-        // redirect
-        header("HTTP/1.1 301 Moved Permanently");
-        header("Location: " . $page . $section . $_SERVER['QUERY_STRING']);
-        exit();
+        $url = $page . $section . $_SERVER['QUERY_STRING'];
+        $this->redirect($url);
     }
 
     public function handle_tpl_act_render(&$event, $param) {
@@ -125,5 +123,16 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         if(isset($event->data->meta['relation'])) {
             unset($event->data->meta['relation']['isreplacedby']);
         }
+    }
+
+    /**
+     * Redirect to url. stop the script
+     * @param string $url
+     */
+    private function redirect($url) {
+        // redirect
+        header("HTTP/1.1 301 Moved Permanently");
+        header("Location: $url");
+        exit();
     }
 }
