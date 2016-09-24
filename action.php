@@ -57,7 +57,9 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         }
 
         // verify metadata currency
+        // FIXME: why
         if(@filemtime(metaFN($ID, '.meta')) < @filemtime(wikiFN($ID))) {
+            throw new Exception('should not get here');
             return;
         }
 
