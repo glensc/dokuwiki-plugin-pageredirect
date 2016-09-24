@@ -30,6 +30,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
     public function handle_dokuwiki_started(&$event, $param) {
         global $ID, $ACT, $REV;
 
+        // skip when looking page history or action is not 'show'
         if(($ACT != 'show' && $ACT != '') || $REV) {
             return;
         }
@@ -156,7 +157,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         $metadata = p_get_metadata($ID, 'relation isreplacedby');
 
         // legacy compat
-        if (is_string($metadata)) {
+        if(is_string($metadata)) {
             $metadata = array($metadata);
         }
 
