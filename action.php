@@ -74,9 +74,6 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         if(!$is_external) {
             $page = wl($page, array('redirect' => $redirect), true, '&');
 
-            // add existing url parameters
-            $page = wl($page, $_SERVER['QUERY_STRING'], true, '&');
-
             if(!headers_sent() && $this->getConf('show_note')) {
                 // remember to show note about being redirected from another page
                 session_start();
