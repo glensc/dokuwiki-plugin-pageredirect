@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
   - make `~~REDIRECT` pattern non-greedy. [#5], [#8]
   - honour `conf['useheading']` for redirect note. [#6], [#8]
   - basic support for external redirects. [#8]
-  - fix access to protected variable after splitbrain/dokuwiki#555. [#10], [#11]
+  - fix access to protected variable after [dokuwiki#555]. [#10], [#11]
 
 ## [20120816]
 
@@ -59,3 +59,4 @@ All notable changes to this project will be documented in this file.
 [#8]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/8
 [#10]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/10
 [#11]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/11
+[dokuwiki#555]: https://github.com/splitbrain/dokuwiki/pull/555
