@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
   - plugin now requires dokuwiki 2014-05-05 (Ponder Stibbons)
   - revert broken implementation of adding `GET` parameters to url from [#16], fixes [#24], [#25]
   - do not add parameters to url if the redirect is external. [133a129], [#25]
+  - fix fatal error when showing redirected message. [a04bcd9], [#23]
 
 ## [20160924]
 
@@ -65,6 +66,7 @@ All notable changes to this project will be documented in this file.
 [e22f33a]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/e22f33a
 [4dca632]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/4dca632
 [133a129]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/133a129
+[a04bcd9]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/a04bcd9
 [#4]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/4
 [#5]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/5
 [#6]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/6
@@ -80,6 +82,7 @@ All notable changes to this project will be documented in this file.
 [#17]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/17
 [#21]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/21
 [#22]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/22
+[#23]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/23
 [#24]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/24
 [#25]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/25
 [dokuwiki#555]: https://github.com/splitbrain/dokuwiki/pull/555
