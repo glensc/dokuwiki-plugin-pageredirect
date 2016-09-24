@@ -15,7 +15,6 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
      * Registers a callback function for a given event
      *
      * @param Doku_Event_Handler $controller DokuWiki's event controller object
-     * @return void
      */
     public function register(Doku_Event_Handler $controller) {
         /* @see action_plugin_pageredirect::handle_dokuwiki_started() */
@@ -74,15 +73,13 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         if(!$is_external) {
             $page = wl($page, array('redirect' => $redirect), true, '&');
 
-            if(!headers_sent() && $this->getConf('show_note')) {
-                // remember to show note about being redirected from another page
-                session_start();
-                $_SESSION[DOKU_COOKIE]['redirect'] = $ID;
+            if($this->getConf('show_note')) {
+                $this->flash_message($ID);
             }
         }
 
         // add anchor if not external redirect
-        if (!$is_external) {
+        if(!$is_external) {
             $page .= $section;
         }
 
@@ -92,24 +89,13 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
     public function handle_tpl_act_render(&$event, $param) {
         global $ID, $ACT;
 
+        // handle on do=show
         if($ACT != 'show' && $ACT != '') {
-            return;
+            return true;
         }
 
-        if(!$this->getConf('show_note')) {
-            return;
-        }
-
-        if(isset($_GET['redirect']) && $_GET['redirect'] > 0 && $_GET['redirect'] < 6) {
-            if(isset($_SESSION[DOKU_COOKIE]['redirect']) && $_SESSION[DOKU_COOKIE]['redirect'] != '') {
-                // we were redirected from another page, show it!
-                $page  = cleanID($_SESSION[DOKU_COOKIE]['redirect']);
-                $title = hsc(useHeading('navigation') && p_get_first_heading($page) ? p_get_first_heading($page) : $page);
-                echo '<div class="noteredirect">' . sprintf($this->getLang('redirected_from'), '<a href="' . wl(':' . $page, array('redirect' => 'no'), true, '&') . '" class="wikilink1" title="' . $page . '">' . $title . '</a>') . '</div><br/>';
-                unset($_SESSION[DOKU_COOKIE]['redirect']);
-
-                return true;
-            }
+        if($this->getConf('show_note')) {
+            $this->render_flash();
         }
 
         return true;
@@ -119,6 +105,47 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         if(isset($event->data->meta['relation'])) {
             unset($event->data->meta['relation']['isreplacedby']);
         }
+    }
+
+    /**
+     * remember to show note about being redirected from another page
+     * @param string $ID page id from where the redirect originated
+     */
+    private function flash_message($ID) {
+        if(headers_sent()) {
+            // too late to do start session
+            // and following code requires session
+            return;
+        }
+
+        session_start();
+        $_SESSION[DOKU_COOKIE]['redirect'] = $ID;
+    }
+
+    /**
+     * show note about being redirected from another page
+     */
+    private function render_flash() {
+        $redirect = isset($_GET['redirect']) ? $_GET['redirect'] : null;
+
+        // loop counter
+        if($redirect <= 0 || $redirect > 5) {
+            return;
+        }
+
+        $ID = isset($_SESSION[DOKU_COOKIE]['redirect']) ? $_SESSION[DOKU_COOKIE]['redirect'] : null;
+        if(!$ID) {
+            return;
+        }
+        unset($_SESSION[DOKU_COOKIE]['redirect']);
+
+        $page        = cleanID($ID);
+        $use_heading = useHeading('navigation') && p_get_first_heading($page);
+        $title       = hsc($use_heading ? p_get_first_heading($page) : $page);
+
+        $url  = wl(':' . $page, array('redirect' => 'no'), true, '&');
+        $link = '<a href="' . $url . '" class="wikilink1" title="' . $page . '">' . $title . '</a>';
+        echo '<div class="noteredirect">' . sprintf($this->getLang('redirected_from'), $link) . '</div><br/>';
     }
 
     /**
