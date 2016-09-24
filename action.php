@@ -143,7 +143,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         $use_heading = useHeading('navigation') && p_get_first_heading($page);
         $title       = hsc($use_heading ? p_get_first_heading($page) : $page);
 
-        $url  = wl(':' . $page, array('redirect' => 'no'), true, '&');
+        $url  = wl($page, array('redirect' => 'no'), true, '&');
         $link = '<a href="' . $url . '" class="wikilink1" title="' . $page . '">' . $title . '</a>';
         echo '<div class="noteredirect">' . sprintf($this->getLang('redirected_from'), $link) . '</div><br/>';
     }
