@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ## [UNRELEASED]
 
   - plugin now requires dokuwiki 2014-05-05 (Ponder Stibbons)
+  - revert broken implementation of adding `GET` parameters to url from [#16], fixes [#24]
 
 ## [20160924]
 
