@@ -41,7 +41,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         if(!$metadata) {
             return;
         }
-        list($page) = $metadata;
+        list($page, $is_external) = $metadata;
 
         if(isset($_GET['redirect'])) {
             // return if redirection is temporarily disabled,
@@ -73,17 +73,14 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         }
 
         // prepare link for internal redirects, keep external targets
-        $is_external = preg_match('#^https?://#i', $page);
         if(!$is_external) {
             $page = wl($page, array('redirect' => $redirect), true, '&');
 
             if($this->getConf('show_note')) {
                 $this->flash_message($ID);
             }
-        }
 
-        // add anchor if not external redirect
-        if(!$is_external) {
+            // add anchor if not external redirect
             $page .= $section;
         }
 
