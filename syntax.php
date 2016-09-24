@@ -66,14 +66,22 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
         // extract target page from match pattern
         if($match[0] == '#') {
             # #REDIRECT PAGE
-            $page = substr($match, 10);
+            $id = substr($match, 10);
         } else {
             # ~~REDIRECT>PAGE~~
-            $page = substr($match, 11, -2);
+            $id = substr($match, 11, -2);
         }
-        $page = trim($page);
+        $id = trim($id);
 
-        return $page;
+        $is_external = preg_match('#^https?://#i', $id);
+
+        // resolve and clean the $id if it is not external
+        if(!$is_external) {
+            global $ID;
+            resolve_pageid(getNS($ID), $id, $exists);
+        }
+
+        return array($id, $is_external);
     }
 
     /**
@@ -129,8 +137,9 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
      * @param string $page
      * @return string
      */
-    private function redirect_message($page) {
-        if(!preg_match('#^(https?)://#i', $page)) {
+    private function redirect_message($metadata) {
+        list($page, $is_external) = $metadata;
+        if(!$is_external) {
             $link = html_wikilink($page);
         } else {
             $link = '<a href="' . hsc($page) . '" class="urlextern">' . hsc($page) . '</a>';

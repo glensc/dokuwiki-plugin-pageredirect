@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
   - do not add parameters to url if the redirect is external. [133a129], [#25]
   - fix fatal error when showing redirected message. [a04bcd9], [#23]
   - fix plugin conflict with creole plugin. [36ebf4a], [#18]
+  - resolve page names to be absolute. [#19]
 
 ## [20160924]
 
@@ -83,6 +84,7 @@ All notable changes to this project will be documented in this file.
 [#16]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/16
 [#17]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/17
 [#18]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/18
+[#19]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/19
 [#21]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/21
 [#22]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/22
 [#23]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/23

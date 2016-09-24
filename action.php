@@ -34,12 +34,13 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
             return;
         }
 
-        $page = p_get_metadata($ID, 'relation isreplacedby');
+        $metadata = $this->get_metadata($ID);
 
         // return if no redirection data
-        if(!$page) {
+        if(!$metadata) {
             return;
         }
+        list($page) = $metadata;
 
         if(isset($_GET['redirect'])) {
             // return if redirection is temporarily disabled,
@@ -103,6 +104,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 
     public function handle_parser_metadata_render(&$event, $param) {
         if(isset($event->data->meta['relation'])) {
+            // FIXME: why is this needed here?!
             unset($event->data->meta['relation']['isreplacedby']);
         }
     }
@@ -146,6 +148,17 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         $url  = wl(':' . $page, array('redirect' => 'no'), true, '&');
         $link = '<a href="' . $url . '" class="wikilink1" title="' . $page . '">' . $title . '</a>';
         echo '<div class="noteredirect">' . sprintf($this->getLang('redirected_from'), $link) . '</div><br/>';
+    }
+
+    private function get_metadata($ID) {
+        $metadata = p_get_metadata($ID, 'relation isreplacedby');
+
+        // legacy compat
+        if (is_string($metadata)) {
+            $metadata = array($metadata);
+        }
+
+        return $metadata;
     }
 
     /**
