@@ -1,6 +1,6 @@
 base    pageredirect
 author  Elan Ruusamäe, David Lorentsen
-email   glen@delfi.ee, zyberdog@quakenet.org
+email   glen@delfi.ee
 date    2016-09-24
 name    Page Redirect
 desc    Redirects page requests based on content
