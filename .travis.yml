@@ -14,15 +14,18 @@ env:
 cache:
   directories:
     - $HOME/.local/bin
+    - $HOME/.cache/phpcs
 
 before_install: wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
 install: sh travis.sh
 
 before_script:
   - which phpcs || { wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -O ~/.local/bin/phpcs && chmod a+rx ~/.local/bin/phpcs; }
+  - test -d ~/.local/share/phpcs/PHPCompatibility || git clone -b 7.0.6 https://github.com/wimg/PHPCompatibility.git ~/.local/share/phpcs/PHPCompatibility
+  - phpcs --config-set installed_paths ~/.local/share/phpcs
 
 script:
-  - phpcs --version
   - phpunit -c _test --stderr --group plugin_pageredirect
+  - phpcs --standard=PHPCompatibility --runtime-set testVersion 5.3-7.0 --ignore=_test/ lib/plugins/pageredirect
 
 # vim:ts=2:sw=2:et
