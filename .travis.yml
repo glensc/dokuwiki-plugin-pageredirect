@@ -8,6 +8,19 @@ php:
 env:
   - DOKUWIKI=master
   - DOKUWIKI=stable
+
+cache:
+  directories:
+    - $HOME/.local/bin
+
 before_install: wget https://raw.github.com/splitbrain/dokuwiki-travis/master/travis.sh
 install: sh travis.sh
-script: cd _test && phpunit --stderr --group plugin_pageredirect
+
+before_script:
+  - which phpcs || { wget -c https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar -O ~/.local/bin/phpcs && chmod a+rx ~/.local/bin/phpcs; }
+
+script:
+  - phpcs --version
+  - phpunit -c _test --stderr --group plugin_pageredirect
+
+# vim:ts=2:sw=2:et
