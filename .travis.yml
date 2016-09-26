@@ -26,6 +26,6 @@ before_script:
 
 script:
   - phpunit -c _test --stderr --group plugin_pageredirect
-  - phpcs --standard=PHPCompatibility --runtime-set testVersion 5.3-7.0 --ignore=_test/ lib/plugins/pageredirect
+  - phpcs -v --standard=PHPCompatibility --runtime-set testVersion 5.3-7.0 --ignore=_test/ lib/plugins/pageredirect
 
 # vim:ts=2:sw=2:et
