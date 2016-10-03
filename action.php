@@ -174,7 +174,8 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
     }
 
     private function get_metadata($ID) {
-        $metadata = p_get_metadata($ID, 'relation isreplacedby');
+        // make sure we always get current metadata, but simple cache logic (i.e. render when page is newer than metadata) is enough
+        $metadata = p_get_metadata($ID, 'relation isreplacedby', METADATA_RENDER_USING_SIMPLE_CACHE|METADATA_RENDER_UNLIMITED);
 
         // legacy compat
         if(is_string($metadata)) {
