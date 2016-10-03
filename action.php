@@ -25,6 +25,8 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         // This plugin goes first, PR#555, requires dokuwiki 2014-05-05 (Ponder Stibbons)
         /* @see action_plugin_pageredirect::handle_tpl_act_render() */
         $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_tpl_act_render', null, PHP_INT_MIN);
+
+        $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
     }
 
     public function handle_dokuwiki_started(&$event, $param) {
@@ -103,6 +105,29 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
             // FIXME: why is this needed here?!
             unset($event->data->meta['relation']['isreplacedby']);
         }
+    }
+
+    public function handle_indexer(Doku_Event $event, $param) {
+        $new_references = array();
+        foreach ($event->data['metadata']['relation_references'] as $target) {
+            $redirect_target = $this->get_metadata($target);
+
+            if ($redirect_target) {
+                list($page, $is_external) = $redirect_target;
+
+                if (!$is_external) {
+                    $new_references[] = $page;
+                }
+            }
+        }
+
+        if (count($new_references) > 0) {
+            $event->data['metadata']['relation_references'] = array_unique(array_merge($new_references, $event->data['metadata']['relation_references']));
+        }
+
+        // FIXME: if the currently indexed page contains a redirect, all pages pointing to it need a new backlink entry!
+        // Note that these entries need to be added for every source page separately.
+        // An alternative could be to force re-indexing of all source pages by removing their ".indexed" file but this will only happen when they are visited.
     }
 
     /**
