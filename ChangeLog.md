@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 [#23]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/23
 [#24]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/24
 [#25]: https://github.com/glensc/dokuwiki-plugin-pageredirect/issues/25
+[#27]: https://github.com/glensc/dokuwiki-plugin-pageredirect/pull/27
 [133a129]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/133a129
 [36ebf4a]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/36ebf4a
 [a04bcd9]: https://github.com/glensc/dokuwiki-plugin-pageredirect/commit/a04bcd9
