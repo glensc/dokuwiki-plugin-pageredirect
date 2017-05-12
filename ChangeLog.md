@@ -4,7 +4,7 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
-## [UNRELEASED]
+## [20170512]
 
   - plugin now requires dokuwiki 2014-05-05 (Ponder Stibbons)
   - revert broken implementation of adding `GET` parameters to url from [#16], fixes [#24], [#25]
@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
   - fix fatal error when showing redirected message. [a04bcd9], [#23]
   - fix plugin conflict with creole plugin. [36ebf4a], [#18]
   - resolve page names to be absolute. [#19]
+  - added german translation [#27]
 
 ## [20160924]
 
@@ -51,7 +52,7 @@ All notable changes to this project will be documented in this file.
 
   - Build 2
 
-[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20160924...master
+[20170512]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20160924...20170512
 [20160924]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20140414...20160924
 [20140414]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20120816...20140414
 [20120816]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20120612...20120816
