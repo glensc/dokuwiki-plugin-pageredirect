@@ -4,6 +4,10 @@ When writing entries, refer to [Keep a CHANGELOG](http://keepachangelog.com/) fo
 
 All notable changes to this project will be documented in this file.
 
+## [UNRELEASED]
+
+[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20170512...master
+
 ## [20170512]
 
   - plugin now requires dokuwiki 2014-05-05 (Ponder Stibbons)
