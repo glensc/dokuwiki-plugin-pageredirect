@@ -1,21 +1,15 @@
 .noteredirect {
-    margin: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    width: 70% !important;
-    min-height: 18px;
-    clear: both;
-    text-align: justify;
-    vertical-align: middle;
-    border-collapse: collapse;
-    padding: 7px 10px 5px 32px;
-    background-position: 10px 50%;
-    background-repeat: no-repeat;
-    -moz-border-radius: 10px;
-    -khtml-border-radius: 10px;
-    border-radius: 10px;
-
-    /*border: 1px solid #B5E0FF;*/
-    background-color: #B5E0FF;
-    background-image: url(images/important_small.png);
+	background: #B5E0FF url(images/important_small.png) 10px 50% no-repeat;
+	/*border: 1px solid #B5E0FF;*/
+	border-collapse: collapse;
+	-khtml-border-radius: 10px;
+	  -moz-border-radius: 10px;
+		   border-radius: 10px;
+	clear: both;
+	margin: 1em auto;
+	min-height: 18px;
+	padding: 7px 10px 5px 32px;
+	text-align: justify;
+	vertical-align: middle;
+	width: 70%;
 }
