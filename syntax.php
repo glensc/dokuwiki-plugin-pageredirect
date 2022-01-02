@@ -124,7 +124,7 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
         if($format == 'metadata') {
             // add redirection to metadata
             $renderer->meta['relation']['isreplacedby'] = $data;
-            $renderer->meta['relation']['references'][$data[0]] = page_exists(($data[0]));
+
             return true;
         }
 
