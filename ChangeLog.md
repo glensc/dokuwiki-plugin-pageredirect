@@ -6,7 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ## [UNRELEASED]
 
-[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20170512...master
+[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20220103...master
+
+## [20220103]
+
+- Partial support for backlinks with redirects by @michitux in #26
+- Esperanto translation in #30
+- Add informal german language by @ebroda in #33
+- Add redirection target to link metadata by @alexdraconian in #39
+
+[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20170512...20220103
 
 ## [20170512]
 
