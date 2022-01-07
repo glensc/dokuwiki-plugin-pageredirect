@@ -27,6 +27,10 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         $controller->register_hook('TPL_ACT_RENDER', 'BEFORE', $this, 'handle_tpl_act_render', null, PHP_INT_MIN);
 
         $controller->register_hook('INDEXER_PAGE_ADD', 'BEFORE', $this, 'handle_indexer');
+
+        // Handle move plugin
+        $controller->register_hook('PLUGIN_MOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_move_register');
+
     }
 
     public function handle_dokuwiki_started(&$event, $param) {
@@ -192,5 +196,65 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
     private function redirect($url) {
         header("HTTP/1.1 301 Moved Permanently");
         send_redirect($url);
+    }
+    
+    public function handle_move_register(Doku_Event $event, $params) {
+        $event->data['handlers']['pageredirect'] = array($this, 'rewrite_redirect');
+    }
+
+    public function rewrite_redirect($match, $state, $pos, $plugin, helper_plugin_move_handler $handler) {
+
+        $metadata = $this->get_metadata($ID);
+        if ($metadata[1]) return $match;  // Fail-safe for external redirection (Do not rewrite)
+
+        $match = trim($match);
+
+        if (substr($match, 0, 1) == "~") {
+            // "~~REDIRECT>pagename#anchor~~" pattern
+            
+            // Strip syntax
+            $match = substr($match, 2, strlen($match) - 4);
+
+            list($syntax, $src, $anchor) = array_pad(preg_split("/>|#/", $match), 3, "");
+
+            // Resolve new source.
+            if (method_exists($handler, 'adaptRelativeId')) {
+                $new_src = $handler->adaptRelativeId($src);
+            } else {
+                $new_src = $handler->resolveMoves($src, 'page');
+                $new_src = $handler->relativeLink($src, $new_src, 'page');
+            }
+
+            $result = "~~".$syntax.">".$new_src;
+            if (!empty($anchor)) $result .= "#".$anchor;
+            $result .= "~~";
+
+            return $result;
+
+        } else if (substr($match, 0, 1) == "#") {
+            // "#REDIRECT pagename#anchor" pattern
+
+            // Strip syntax
+            $match = substr($match, 1);
+
+            list($syntax, $src, $anchor) = array_pad(preg_split("/ |#/", $match), 3, "");
+
+            // Resolve new source.
+            if (method_exists($handler, 'adaptRelativeId')) {
+                $new_src = $handler->adaptRelativeId($src);
+            } else {
+                $new_src = $handler->resolveMoves($src, 'page');
+                $new_src = $handler->relativeLink($src, $new_src, 'page');
+            }
+
+            $result = "\n#".$syntax." ".$new_src;
+            if (!empty($anchor)) $result .= "#".$anchor;
+
+            return $result;
+        }
+
+        // Fail-safe
+        return $match;
+
     }
 }
