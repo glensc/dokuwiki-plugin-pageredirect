@@ -7,3 +7,4 @@
  */
 
 $lang['show_note'] = 'Auf der Zielseite einen Hinweis zur Umleitung anzeigen?';
+$lang['allow_external'] = 'Umleitungen auf externe Websites erlauben?';

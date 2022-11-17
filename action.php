@@ -49,6 +49,11 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         }
         list($page, $is_external) = $metadata;
 
+        // return if external redirect is not allowed
+        if($is_external && !$this->getConf('allow_external')) {
+            return;
+        }
+
         global $INPUT;
         $redirect = $INPUT->get->str('redirect', '0');
 

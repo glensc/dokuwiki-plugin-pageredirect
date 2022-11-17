@@ -7,3 +7,4 @@
  */
 
 $lang['show_note'] = 'Display note on page you are redirected to?';
+$lang['allow_external'] = 'Allow redirects to external websites?';
