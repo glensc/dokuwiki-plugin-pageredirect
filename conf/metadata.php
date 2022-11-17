@@ -7,3 +7,4 @@
  */
 
 $meta['show_note'] = array('onoff');
+$meta['allow_external'] = array('onoff');
