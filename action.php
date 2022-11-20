@@ -30,7 +30,6 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 
         // Handle move plugin
         $controller->register_hook('PLUGIN_MOVE_HANDLERS_REGISTER', 'BEFORE', $this, 'handle_move_register');
-
     }
 
     public function handle_dokuwiki_started(&$event, $param) {
@@ -202,13 +201,12 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         header("HTTP/1.1 301 Moved Permanently");
         send_redirect($url);
     }
-    
+
     public function handle_move_register(Doku_Event $event, $params) {
         $event->data['handlers']['pageredirect'] = array($this, 'rewrite_redirect');
     }
 
     public function rewrite_redirect($match, $state, $pos, $plugin, helper_plugin_move_handler $handler) {
-
         $metadata = $this->get_metadata($ID);
         if ($metadata[1]) return $match;  // Fail-safe for external redirection (Do not rewrite)
 
@@ -216,7 +214,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
 
         if (substr($match, 0, 1) == "~") {
             // "~~REDIRECT>pagename#anchor~~" pattern
-            
+
             // Strip syntax
             $match = substr($match, 2, strlen($match) - 4);
 
