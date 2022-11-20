@@ -6,7 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ## [UNRELEASED]
 
-[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20220103...master
+[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20221120...master
+
+## [20221120]
+
+- Make external redirects optional, #43
+- Add Move plugin support, #40
+
+[20221120]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20220103...20221120
 
 ## [20220103]
 
@@ -15,7 +22,7 @@ All notable changes to this project will be documented in this file.
 - Add informal german language by @ebroda in #33
 - Add redirection target to link metadata by @alexdraconian in #39
 
-[UNRELEASED]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20170512...20220103
+[20220103]: https://github.com/glensc/dokuwiki-plugin-pageredirect/compare/20170512...20220103
 
 ## [20170512]
 
