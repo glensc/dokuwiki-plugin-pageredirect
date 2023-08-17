@@ -7,6 +7,8 @@
  * @author  David Lorentsen <zyberdog@quakenet.org>
  */
 
+use dokuwiki\File\PageResolver;
+
 // must be run within Dokuwiki
 if(!defined('DOKU_INC')) die();
 
@@ -78,7 +80,8 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
         // resolve and clean the $id if it is not external
         if(!$is_external) {
             global $ID;
-            resolve_pageid(getNS($ID), $id, $exists);
+            $resolver = new PageResolver($ID);
+            $id = $resolver->resolveId($id);
         }
 
         return array($id, $is_external);
