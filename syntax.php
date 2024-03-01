@@ -80,8 +80,13 @@ class syntax_plugin_pageredirect extends DokuWiki_Syntax_Plugin {
         // resolve and clean the $id if it is not external
         if(!$is_external) {
             global $ID;
-            $resolver = new PageResolver($ID);
-            $id = $resolver->resolveId($id);
+            if (class_exists('dokuwiki\File\PageResolver')) {
+                $resolver = new PageResolver($ID);
+                $id = $resolver->resolveId($id);
+            } else {
+                $exists = null;
+                resolve_pageid(getNS($ID), $id, $exists);
+            }
         }
 
         return array($id, $is_external);
