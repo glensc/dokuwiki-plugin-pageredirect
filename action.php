@@ -71,7 +71,7 @@ class action_plugin_pageredirect extends DokuWiki_Action_Plugin {
         }
 
         // preserve #section from $page
-        list($page, $section) = explode('#', $page, 2);
+        list($page, $section) = array_pad(explode('#', $page, 2), 2, null);
         if(isset($section)) {
             $section = '#' . $section;
         } else {
